@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'User'
+    'User',
+    "corsheaders",
+    'Voxa',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # must be at the top, before CommonMiddleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -138,3 +141,17 @@ REST_FRAMEWORK = {
     ),
 }
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",       # For your local React/Vue/Svelte development
+    "http://127.0.0.1:3000",
+    "https://yourproductionfrontend.com", # Your actual production domain
+]
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),   # default is 5 minutes
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),      # default is 1 day
+    "ROTATE_REFRESH_TOKENS": True,                    # optional: issue new refresh on use
+    "BLACKLIST_AFTER_ROTATION": True,                 # optional: blacklist old refresh
+}
