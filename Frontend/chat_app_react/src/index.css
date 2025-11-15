@@ -1,13 +1,72 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+
+/* .dark { */
+  /* Dark theme */
+  /* --color-bg: #0f172a;
+  --color-primary: #06b6d4;
+  --color-primary-dark: #0891b2;
+  --color-text: #e0f2fe;
+  --color-accent: #22d3ee;
+  --color-accent-dark: #0e7490;
+  --color-border: #0284c7; */
+/* } */
+
+:root {
+  /* Light theme */
+  --color-bg: #FAF4EF;          /* very light beige background */
+  --color-primary: #A47764;     /* main brownish color */
+  --color-primary-dark: #815B4E; /* darker brown */
+  --color-text: #5D4330;        /* dark brown text */
+  --color-accent: #C6A78D;      /* lighter accent */
+  --color-accent-dark: #96755B; /* darker accent */
+  --color-border: #D5BFAA;  
+      /* soft border color */
+  --color-bg-tra:rgba(90, 52, 2, 0.103);
+  --color-text-small:rgb(255, 255, 255);
+  --color-glass:rgba(211, 211, 211, 0.195);
+  
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.dark {
+  /* Dark theme */
+  --color-bg: #2C2520;          /* dark brown background */
+  --color-primary: #A47764;     /* keep primary for consistency */
+  --color-primary-dark: #815B4E; 
+  --color-text: #E8DBC9;        /* light text */
+  --color-accent: #C6A78D;      
+  --color-accent-dark: #96755B; 
+  --color-border: #7A6E62;      
+  
+  --color-bg-tra:rgba(83, 61, 29, 0.371);
+  --color-text-small:rgb(36, 34, 34);
+  --color-glass:rgba(255, 255, 255, 0.452);
 }
+/* 
+html {
+  transition: background-color 0.5s ease, color 0.5s ease;
+} */
+
+/* Thin scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 9999px;
+  border: 2px solid var(--color-bg);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-bg);
+}
+
+
+/* Emoji picker scrollbar */

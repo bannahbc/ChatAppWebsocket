@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 from .models import UserProfile
+from django.contrib.auth import get_user_model
 
 
 class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -54,3 +55,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "email"] 
