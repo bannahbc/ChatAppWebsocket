@@ -22,6 +22,9 @@
   --color-border: #D5BFAA;  
       /* soft border color */
   --color-bg-tra:rgba(90, 52, 2, 0.103);
+  --color-text-small:rgb(255, 255, 255);
+  --color-glass:rgba(211, 211, 211, 0.195);
+  
 }
 
 .dark {
@@ -33,8 +36,10 @@
   --color-accent: #C6A78D;      
   --color-accent-dark: #96755B; 
   --color-border: #7A6E62;      
-
+  
   --color-bg-tra:rgba(83, 61, 29, 0.371);
+  --color-text-small:rgb(36, 34, 34);
+  --color-glass:rgba(255, 255, 255, 0.452);
 }
 /* 
 html {
@@ -62,3 +67,6 @@ html {
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) var(--color-bg);
 }
+
+
+/* Emoji picker scrollbar */

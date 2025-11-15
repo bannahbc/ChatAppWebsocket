@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { DarkModeToggle } from "../DarkModeToggle";
+import { ThemeSettings } from "../ThemeSettings";
 
 
 const Navbar = () => {
@@ -21,6 +22,9 @@ const Navbar = () => {
           <div className="darkmodetoggle">
             <DarkModeToggle/>
           </div>
+          {/* <div className="colorThem">
+            <ThemeSettings/>
+          </div> */}
 
           {/* Hamburger for mobile */}
           <div className="lg:hidden">
