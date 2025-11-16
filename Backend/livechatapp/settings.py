@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-k@p8(u5ym4nfrzvpurs8+%u93j8zq#t&rua6p#4!!a$7yb06*9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -175,3 +175,15 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,                    # optional: issue new refresh on use
     "BLACKLIST_AFTER_ROTATION": True,                 # optional: blacklist old refresh
 }
+
+
+# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
+# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
+
+# # For quick testing, you can hardcode:
+# ALLOWED_HOSTS = [
+#     "voxachat-88fl.onrender.com",
+#     "localhost",
+#     "127.0.0.1",
+# ]
+ALLOWED_HOSTS = ["*"]
