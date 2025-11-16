@@ -194,7 +194,8 @@ export const ChatArea = ({ contact, onBack }) => {
 
     const token = localStorage.getItem("access"); // JWT
     const ws = new WebSocket(
-      `ws://localhost:8000/ws/chat/${contact.id}/?token=${token}`
+      // `ws://localhost:8000/ws/chat/${contact.id}/?token=${token}`
+      `wss://voxachat-88fl.onrender.com/ws/chat/${contact.id}/?token=${token}`
     );
 
     ws.onopen = () => console.log("✅ Connected to backend");
