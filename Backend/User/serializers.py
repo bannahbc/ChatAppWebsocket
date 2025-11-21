@@ -28,6 +28,12 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
             "id": user.id,
             "email": user.email,
             "username": user.username,
+            # "profile_picture": user.profile_picture.url if user.profile_picture else None,
+            "profile_picture": (
+            self.context['request'].build_absolute_uri(user.profile_picture.url)
+            if user.profile_picture else None
+        ),
+            
         }
         return data
 
@@ -61,4 +67,9 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email"] 
+        fields = ["id", "username", "email",'profile_picture'] 
+        
+class ProfilePicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['profile_picture']

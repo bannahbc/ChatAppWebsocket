@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,12 +57,27 @@ INSTALLED_APPS = [
 #         },
 #     },
 # }
+# import os
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [os.environ.get("REDIS_URL")],
+#         },
+#     },
+# }
+
 import os
+
+REDIS_URL = os.environ.get("REDIS_URL", "redis://127.0.0.1:6379")
+# REDIS_URL = os.environ.get("REDIS_URL")
+print("Using REDIS_URL:", os.environ.get("REDIS_URL"))
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [os.environ.get("REDIS_URL")],
+            "hosts": [REDIS_URL],
         },
     },
 }
@@ -72,6 +92,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'livechatapp.urls'
@@ -140,7 +161,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -164,7 +185,7 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",       # For your local React/Vue/Svelte development
     "http://127.0.0.1:3000",
-    "https://voxachat.netlify.app/", # Your actual production domain
+    # "https://voxachat.netlify.app/", # Your actual production domain
 ]
 # CORS_ALLOWED_ORIGINS = [
 #     "https://voxachat.netlify.app",
@@ -192,3 +213,9 @@ SIMPLE_JWT = {
 #     "127.0.0.1",
 # ]
 ALLOWED_HOSTS = ["*"]
+
+ASGI_APPLICATION = "livechatapp.asgi.application"
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

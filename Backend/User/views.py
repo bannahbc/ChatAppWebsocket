@@ -29,6 +29,25 @@ class UserListView(generics.ListAPIView):
     def get_queryset(self):
         # Exclude the current logged-in user
         return User.objects.exclude(id=self.request.user.id)
+    
+    
+# profilepic update view
+
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .serializers import ProfilePicSerializer
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def update_profile_pic(request):
+    user =request.user
+    serializer = ProfilePicSerializer(user,data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message":"Profile picture updated successfully", "data":serializer.data}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
