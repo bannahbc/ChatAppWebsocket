@@ -6,3 +6,15 @@ instance
 .env
 .pytest_cache/
 .coverage
+/migrations/
+*.sqlite3
+.DS_Store
+.idea/
+
+# Logs
+*.log
+logs/
+/User/migrations/
+# Migrations (ignore generated, keep init)
+*/migrations/*.py
+!*/migrations/__init__.py

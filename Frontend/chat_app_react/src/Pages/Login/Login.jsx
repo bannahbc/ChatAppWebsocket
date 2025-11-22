@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { API } from "../../Api/Axios";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../Store/UserSlice";
+import {DarkModeToggle} from '../../Components/DarkModeToggle'
 
 
 export default function LoginRegister() {
   const [isLogin, setIsLogin] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({ email: "", password: "", name: "" });
   const [message, setMessage] = useState("");
@@ -25,51 +29,48 @@ export default function LoginRegister() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-
-    if (!formData.email || !formData.password || (!isLogin && !formData.name)) {
-      setMessage("Please fill in all required fields.");
-      return;
-    }
-
     setIsLoading(true);
 
     const endpoint = isLogin ? "user/login/" : "user/register/";
-    let payload;
-
-    if (isLogin) {
-      payload = { email: formData.email, password: formData.password };
-    } else {
-      payload = {
-        username: formData.name,
-        email: formData.email,
-        password: formData.password,
-      };
-    }
+    const payload = isLogin
+      ? { email: formData.email, password: formData.password }
+      : { username: formData.name, email: formData.email, password: formData.password };
 
     try {
-      const response = await API.post(endpoint, payload);
+      const response = await API.post(endpoint, payload, { timeout: 30000 });
       const { access, refresh, user } = response.data;
+      console.log("Authentication Response:", user);
 
       if (access && refresh) {
         localStorage.setItem("access", access);
         localStorage.setItem("refreshToken", refresh);
         localStorage.setItem("user", JSON.stringify(user));
+        dispatch(setUser({ user, access, refresh }));
       }
 
-      setMessage(
-        isLogin
-          ? `✅ Successfully logged in as ${user?.email || formData.email}`
-          : `✅ Registration successful for user ${user?.user_name || formData.name}. Please log in.`
-      );
-
-      setTimeout(() => navigate("/home"), 500);
+      if (isLogin) {
+        setMessage(`✅ Successfully logged in as ${user?.email || formData.email}`);
+        setTimeout(() => navigate("/home"), 500);
+      } else {
+        setMessage(
+          `✅ Registration successful for ${user?.username || formData.name}.
+           Please log in
+           `
+          //  Email: ${formData.email}
+          //  Password: ${formData.password}
+        );
+        // Switch to login form after showing credentials
+        setTimeout(() => setIsLogin(true), 2000);
+      }
     } catch (error) {
       const errorMsg =
         error.response?.data?.detail ||
         error.response?.data?.message ||
+        error.response?.data?.email ||
+        error.response?.data?.username ||
         "An unknown error occurred.";
       setMessage(`❌ Error: ${errorMsg}`);
-      console.error("Authentication Error:", error);
+      console.error("Authentication Error:", error.response);
     } finally {
       setIsLoading(false);
     }
@@ -77,7 +78,9 @@ export default function LoginRegister() {
 
   useEffect(() => {
     const root = window.document.documentElement;
+    const theme = localStorage.getItem('theme')
     darkMode ? root.classList.add("dark") : root.classList.remove("dark");
+    theme==="dark" ? root.classList.add("dark"):root.classList.remove("dark")
   }, [darkMode]);
 
   return (
@@ -87,9 +90,8 @@ export default function LoginRegister() {
       </h1>
 
       <div className="absolute top-5 right-5">
-  <DarkModeToggle />
-</div>
-
+        <DarkModeToggle />
+      </div>
 
       <div className="w-full max-w-md bg-bg bg-opacity-90 backdrop-blur-md rounded-xl shadow-2xl p-8 relative overflow-hidden border border-border transition-colors duration-700">
         <div className="flex justify-center mb-10 space-x-14">
@@ -196,62 +198,19 @@ export default function LoginRegister() {
           </form>
         </div>
 
-        {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
+        {/* Styled Message */}
+        {message && (
+          <div
+            className={`mt-4 text-center px-4 py-2 rounded-md font-medium shadow-md transition-all duration-500 whitespace-pre-line
+              ${message.startsWith("✅")
+                ? "bg-green-100 text-green-700 border border-green-400"
+                : "bg-red-100 text-red-700 border border-red-400"}`}
+          >
+            {message}
+          </div>
+        )}
       </div>
     </div>
   );
 }
- function DarkModeToggle() {
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (darkMode) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-  }, [darkMode]);
-
-  return (
-    <button
-      onClick={() => setDarkMode(!darkMode)}
-      aria-label="Toggle Dark Mode"
-      className="p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-500"
-    >
-      <div className="relative w-6 h-6 text-yellow-400">
-        {/* Sun icon */}
-        <svg
-          className={`absolute inset-0 w-6 h-6 transition-opacity duration-500 ${
-            darkMode ? 'opacity-0' : 'opacity-100'
-          }`}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <circle cx="12" cy="12" r="5" strokeLinecap="round" strokeLinejoin="round" />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M16.36 16.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M16.36 7.64l1.42-1.42"
-          />
-        </svg>
-        {/* Moon icon */}
-        <svg
-          className={`absolute inset-0 w-6 h-6 transition-opacity duration-500 ${
-            darkMode ? 'opacity-100' : 'opacity-0'
-          }`}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          stroke="none"
-        >
-          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-        </svg>
-      </div>
-    </button>
-  );
-}
-
+ 

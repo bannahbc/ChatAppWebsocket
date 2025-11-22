@@ -16,7 +16,7 @@ const HomePage = () => {
   <main className="flex flex-1 h-[calc(100vh-4rem)] w-full">
     {/* Sidebar */}
     <div
-      className={`w-72 border-r border-[var(--color-border)] ${
+      className={`w-full lg:w-96 border-r border-[var(--color-border)] ${
         selectedContact ? "hidden" : "block"
       } lg:block h-full overflow-y-auto overflow-x-hidden`}
     >

@@ -12,35 +12,36 @@
 /* } */
 
 :root {
-  /* Light theme */
-  --color-bg: #FAF4EF;          /* very light beige background */
-  --color-primary: #A47764;     /* main brownish color */
-  --color-primary-dark: #815B4E; /* darker brown */
-  --color-text: #5D4330;        /* dark brown text */
-  --color-accent: #C6A78D;      /* lighter accent */
-  --color-accent-dark: #96755B; /* darker accent */
-  --color-border: #D5BFAA;  
-      /* soft border color */
-  --color-bg-tra:rgba(90, 52, 2, 0.103);
-  --color-text-small:rgb(255, 255, 255);
-  --color-glass:rgba(211, 211, 211, 0.195);
-  
+  --color-bg: #F5F7FA;          /* very soft gray-blue background */
+  --color-primary: #4A6FA5;     /* muted steel blue for main actions */
+  --color-primary-dark: #3A5A85; /* slightly darker blue for hover */
+  --color-text: #2D3748;        /* dark gray text for readability */
+  --color-accent: #A3B18A;      /* soft sage green accent */
+  --color-accent-dark: #6B705C; /* earthy muted green/brown */
+  --color-border: #D1D5DB;      /* light gray border */
+  --color-bg-tra: rgba(74, 111, 165, 0.08); /* translucent blue overlay */
+  --color-text-small: #132746;  /* muted gray for secondary text */
+  --color-glass: rgba(255, 255, 255, 0.5); /* subtle glass effect */
 }
 
+
+
+
 .dark {
-  /* Dark theme */
-  --color-bg: #2C2520;          /* dark brown background */
-  --color-primary: #A47764;     /* keep primary for consistency */
-  --color-primary-dark: #815B4E; 
-  --color-text: #E8DBC9;        /* light text */
-  --color-accent: #C6A78D;      
-  --color-accent-dark: #96755B; 
-  --color-border: #7A6E62;      
-  
-  --color-bg-tra:rgba(83, 61, 29, 0.371);
-  --color-text-small:rgb(36, 34, 34);
-  --color-glass:rgba(255, 255, 255, 0.452);
+  --color-bg: #1C1F24;          /* soft charcoal background */
+  --color-primary: #5A7CA8;     /* muted blue for actions */
+  --color-primary-dark: #3E557A; /* darker muted blue */
+  --color-text: #E2E8F0;        /* light gray text */
+  --color-accent: #8DAA91;      /* muted sage accent */
+  --color-accent-dark: #556B5F; /* earthy dark green */
+  --color-border: #2D3748;      /* subtle dark border */
+  --color-bg-tra: rgba(90, 122, 168, 0.15); /* translucent muted blue */
+  --color-text-small: #ffffff;  /* soft gray for secondary text */
+  --color-glass: rgba(255, 255, 255, 0.08); /* subtle glass effect */
 }
+
+
+
 /* 
 html {
   transition: background-color 0.5s ease, color 0.5s ease;

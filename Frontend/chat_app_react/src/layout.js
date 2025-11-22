@@ -1,13 +1,14 @@
 import { Outlet, Navigate } from "react-router-dom";
 import Navbar from "./Components/Navbar/Navbar";
+import { useSelector } from "react-redux";
 
 function PrivateLayout() {
-  const token = localStorage.getItem("access"); // or from context/state
+  const { access, user } = useSelector((state) => state.user);
 
-  if (!token) {
-    // If no token, redirect to login
-    return <Navigate to="/" replace />;
-  }
+if (!access || !user) {
+  return <Navigate to="/" replace />;
+}
+
 
   return (
     <div>
@@ -15,7 +16,7 @@ function PrivateLayout() {
         <div className="sticky top-0 z-50 shadow-md h-16">
           <Navbar />
         </div>
-        <Outlet /> {/* renders child routes */}
+        <Outlet />
       </main>
     </div>
   );

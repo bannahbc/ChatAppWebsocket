@@ -1,0 +1,164 @@
+message
+// import React, { useState, useEffect, useRef } from "react";
+// import { API } from "../../Api/Axios";
+// import Picker from '@emoji-mart/react';
+// import data from '@emoji-mart/data';
+
+// const currentUser = JSON.parse(localStorage.getItem("user"));
+
+// export const ChatArea = ({ contact, onBack }) => {
+//   const [socket, setSocket] = useState(null);   // <-- add this
+
+//   useEffect(() => {
+//     if (!contact) return;
+//     const token = localStorage.getItem("access"); // JWT
+// const ws = new WebSocket(`ws://localhost:8000/ws/chat/${contact.id}/?token=${token}`);
+
+//     // const ws = new WebSocket(`ws://localhost:8000/ws/chat/${contact.id}/`);
+
+//     ws.onopen = () => console.log("✅ Connected to backend");
+//     ws.onmessage = (event) => {
+//       const data = JSON.parse(event.data);
+//       setMessages((prev) => [...prev, data]);
+//     };
+//     ws.onclose = () => console.log("⚠️ Disconnected");
+
+//     setSocket(ws);
+//     return () => ws.close();
+//   }, [contact]);
+
+//   const sendMessage2 = () => {
+//     if (!input.trim()) return;
+//     const msg = {
+//       sender_id: currentUser.id,
+//       receiver: contact.id,
+//       text: input,
+//     };
+//     if (socket && socket.readyState === WebSocket.OPEN) {
+//       socket.send(JSON.stringify(msg));
+//     }
+//     setInput("");
+//   };
+//   const [messages, setMessages] = useState([]);
+//   const [input, setInput] = useState("");
+//   const bottomRef = useRef(null);
+//   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+//   useEffect(() => {
+//     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }, [messages]);
+
+//   useEffect(() => {
+//     if (!contact) return;
+
+//     const fetchMessages = async () => {
+//       try {
+//         const res = await API.get(`/chat/getmessage/?receiver=${contact.id}`);
+//         console.log("messages",res)
+//         setMessages(res.data);
+//       } catch (err) {
+//         console.error("Error fetching messages:", err.response?.data || err.message);
+//       }
+//     };
+
+//     fetchMessages();
+//   }, [contact]);
+
+//   const sendMessage = async () => {
+//   if (!input.trim()) return;
+
+//   try {
+//     const res = await API.post("chat/createmessage/", {
+//       receiver: contact.id,
+//       text: input,
+//     });
+
+//     // Append new message from backend response
+//     setMessages((prev) => [...prev, res.data]);
+//     setInput("");
+//   } catch (err) {
+//     console.error("Error sending message:", err.response?.data || err.message);
+//   }
+// };
+
+//   const handleKeyDown = (e) => {
+//     if (e.key === "Enter") sendMessage();
+//   };
+
+//   if (!contact)
+//     return (
+//       <div className="hidden lg:flex flex-1 items-center justify-center text-[var(--color-primary)]">
+//         Select a chat to start messaging
+//       </div>
+//     );
+
+//   return (
+//     <section className="flex flex-col flex-1 bg-[var(--color-bg)] text-[var(--color-text)] h-full relative">
+//       {/* Back button only on mobile */}
+//       <div className="border-b border-[var(--color-border)] p-4 flex items-center lg:hidden">
+//         <button onClick={onBack} className="text-[var(--color-primary)] font-semibold">
+//           ← Back
+//         </button>
+//         <h2 className="ml-4 font-bold grow">{contact.username}</h2>
+//       </div>
+
+//       {/* Messages */}
+//       <div className="flex-1 overflow-y-scroll p-4 flex flex-col space-y-2 mb-24">
+//         {messages.map(({ id, text, sender_id }) => {
+//   const isUserMessage = sender_id === currentUser.id;
+
+//   return (
+//     <div
+//       key={id}
+//       className={`flex w-full mb-2 ${isUserMessage ? "justify-end" : "justify-start"}`}
+//     >
+//       <div
+//         className="max-w-[70%] p-3 rounded-lg break-words select-none drop-shadow-md"
+//         style={{
+//           backgroundColor: isUserMessage
+//             ? "var(--color-primary)"
+//             : "var(--color-accent)",
+//           color: isUserMessage ? "white" : "var(--color-text)",
+//           borderTopRightRadius: isUserMessage ? 0 : "0.75rem",
+//           borderTopLeftRadius: isUserMessage ? "0.75rem" : 0,
+//         }}
+//       >
+//         {text}
+//         <button onClick={sendMessage2}>Socket 2</button>
+//       </div>
+//     </div>
+//   );
+// })}
+//         <div ref={bottomRef} />
+//       </div>
+
+// {/* Emoji Picker */}
+// {showEmojiPicker && (
+//   <div className="absolute bottom-20 right-4 z-50">
+//     <Picker data={data} onEmojiSelect={(emoji) => setInput((prev) => prev + emoji.native)} />
+//   </div>
+// )}
+
+//       {/* Input */}
+//       <div className="fixed bottom-2 rounded-xl mx-2 left-0 right-0 lg:left-72 border-t border-[var(--color-border)] p-4 gap-2 flex items-center bg-white">
+//         {/* Emoji toggle button */}
+// <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>😊</button>
+//         <input
+//           type="text"
+//           placeholder="Type your message..."
+//           value={input}
+//           onChange={(e) => setInput(e.target.value)}
+//           onKeyDown={handleKeyDown}
+//           className="flex-1 px-3 py-2 rounded border border-[var(--color-border)] bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-dark)] transition"
+//         />
+//         <button
+//           onClick={sendMessage}
+//           className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white px-4 py-2 rounded transition"
+//           aria-label="Send message"
+//         >
+//           Send
+//         </button>
+//       </div>
+//     </section>
+//   );
+// };
